@@ -8,7 +8,7 @@ export function cleanInput(input: string): string[] {
     .filter((word) => word !== "");
 }
 
-export function startREPL(state: State) {
+export async function startREPL(state: State) {
   state.rl.prompt();
 
   state.rl.on("line", async (input) => {
@@ -23,7 +23,7 @@ export function startREPL(state: State) {
     const command = state.commands[commandName];
     if (!command) {
       console.log(
-        `Unknown command: "${commandName}". Type "help" for a list of commands.`,
+        `Unknown command: "${commandName}". Type "help" for a list of commands.`
       );
       state.rl.prompt();
       return;
