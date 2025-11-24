@@ -63,6 +63,12 @@ export class PokeAPI {
   async fetchPokemon(pokemonName: string): Promise<Pokemon> {
     const url = `${PokeAPI.baseURL}/pokemon/${pokemonName}`;
 
+    const cached = this.cache.get<Pokemon>(url);
+
+    if (cached) {
+      return cached;
+    }
+
     try {
       const response = await fetch(url);
 
@@ -71,6 +77,7 @@ export class PokeAPI {
       }
 
       const pokemon: Pokemon = await response.json();
+      this.cache.add(url, pokemon);
       return pokemon;
     } catch (e) {
       throw new Error(
